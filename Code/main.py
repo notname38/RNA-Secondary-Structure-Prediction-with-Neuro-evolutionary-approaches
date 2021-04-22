@@ -28,6 +28,9 @@ for elem in database:
         testelem = elem
         break
 
+# TODO
+# OUTDATED,
+
 if testelem != 0:
     pseq = testelem.sequence
     print("Analizing:", testelem.name)

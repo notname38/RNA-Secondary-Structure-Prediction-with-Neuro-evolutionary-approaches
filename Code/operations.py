@@ -1,6 +1,8 @@
 import numpy as np
 
 def format_result(pair_list, nElements):
+    # TODO:
+    # take a good look at this method. Might find a better way.
     result_list = np.zeros((nElements,2), dtype=np.int32)
     for n in range(nElements):
         result_list[n][0] = n
@@ -31,8 +33,8 @@ def get_connected(structure, mode = "list"):
     return list(sol_list)
 
 
-def get_TP_TN_FP_FN(predicted, truth):
-    # Returns the number of: 
+def get_TP_TN_FP_FN(prediction, ground_truth, mode = "soft"):
+    # Returns the number of for both types "soft" and normal
     #   true positives
     TP = 0
     #   true negatives
@@ -41,6 +43,14 @@ def get_TP_TN_FP_FN(predicted, truth):
     FP = 0
     #   false negatives
     FN = 0
+    
+    if (mode == "soft"):
+        # Soft Evaluation method.
+        truth = get_connected(ground_truth, mode = "dataframe")
+        predicted = get_connected(prediction)
+    else:
+        # TODO
+            # Normal evaluation method.
 
     nElements = len(truth)
     for n in range(nElements):

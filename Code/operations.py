@@ -11,56 +11,117 @@ def format_result(pair_list, nElements):
         result_list[pair[1]] = [pair[1], pair[0]]
     return list(result_list) 
 
-def get_connected(structure, mode = "list"):
-    # Returns a list where 1 is the element is connected, 0 if it isnt
-    # Two modes: for a pandas dataset and a normal pair list
-    sol_list = []
-    if mode == "list":
-        for pair in structure:
-            if pair[1] == 0:
-                sol_list.append(0)
-            else:
-                sol_list.append(1)
 
-    if mode == "dataframe":
-        pairs = structure["base_pair"].tolist()
-        for pair in pairs:
-            if pair == 0:
-                sol_list.append(0)
-            else:
-                sol_list.append(1)
+##########################################################################
+##########################################################################
+
+# binary_lists serves to help evaluate structures 
+    # Structure_1 is a pandas dataset.
+    # Structure_2 is a list of pairs.
+
+    # We have five options:
+        # Not paired.
+        # Paired.
+
+    # Encoding of the options:
+        # Not paired. = 0
+        # Paired. = 1
     
-    return list(sol_list)
+    # Returns two lists:
+        # y_pred where y_pred(i) is if element i is paired in the prediction.
+        # y_true where y_true(i) is if element i is paired in the ground truth.
 
+def binary_list(structure_1, structure_2):
+    true_pairs = structure_1["base_pair"].tolist()
+    nElements = len(true_pairs)
+    y_pred = []
+    y_true = []
 
-def get_TP_TN_FP_FN(prediction, ground_truth, mode = "soft"):
-    # Returns the number of for both types "soft" and normal
-    #   true positives
-    TP = 0
-    #   true negatives
-    TN = 0
-    #   false positives
-    FP = 0
-    #   false negatives
-    FN = 0
+    for i in range(nElements):
+        aux = structure_2[i][1]
+        aux_2 = true_pairs[i]
+        x = 1
+        y = 1
+
+        if aux == 0:
+            x = 0
+        y_pred.append(x)
+
+        if aux_2 == 0:
+            y = 0
+        y_true.append(y)
+        
+    return list(y_pred), list(y_true)
+
+##########################################################################
+##########################################################################
+
+##########################################################################
+##########################################################################
+
+# multilabel_list serves to help evaluate structures 
+    # Structure_1 is a pandas dataset.
+    # Structure_2 is a list of pairs.
+    # Seq is the original sequence.
+
+    # We have five options:
+        # Not paired.
+        # Paired with C
+        # Paired with G
+        # Paired with A
+        # Paired with U
     
-    if (mode == "soft"):
-        # Soft Evaluation method.
-        truth = get_connected(ground_truth, mode = "dataframe")
-        predicted = get_connected(prediction)
-    else:
-        # TODO
-            # Normal evaluation method.
+    # Encoding of the options:
+        # Not paired. = 0
+        # C = 1
+        # G = 2
+        # A = 3
+        # U = 4
+    
+    # Returns two lists:
+        # y_pred where y_pred(i) is to which element the i element is paired to in the prediction.
+        # y_true where y_true(i) is to which element the i element is paired to in the ground truth.
+    
 
-    nElements = len(truth)
-    for n in range(nElements):
-        if predicted[n] == 1 and truth[n] == 1:
-            TP = TP + 1
-        if predicted[n] == 1 and truth[n] == 0:
-            FP = FP + 1
-        if predicted[n] == 0 and truth[n] == 1:
-            FN = TN + 1
-        if predicted[n] == 0 and truth[n] == 0:
-            TN = TN + 1
-    return TP, TN, FP, FN
+def encode(element):
+    if element == "C":
+        return 1
+    elif element == "G":
+        return 2
+    elif element == "A":
+        return 3
+    elif element == "U":
+        return 4
+
+def multilabel_list(structure_1, structure_2, seq):
+    nElements = len(seq)
+    true_pairs = structure_1["base_pair"].tolist()
+    y_pred = []
+    y_true = []
+
+    for i in range(nElements):
+        aux = structure_2[i][1]
+        aux_2 = true_pairs[i]
+        if aux == 0:
+            x = 0
+        else:
+            x = encode(seq[aux])
+        y_pred.append(x)
+
+        if aux_2 == 0:
+            y = 0
+        else:
+            y = encode(seq[aux_2])
+
+        y_true.append(y)
+        
+    return list(y_pred), list(y_true)
+
+##########################################################################
+##########################################################################
+
+
+
+
+
 

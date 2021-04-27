@@ -1,5 +1,12 @@
 import operations as op
 import numpy as np
+import matplotlib.pyplot as plt  
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import precision_score 
+from sklearn.metrics import confusion_matrix
+
 
 class Rna:
 
@@ -18,61 +25,129 @@ class Rna:
     def update_sequence(self, pSequence):
         self.sequence = pSequence
 
-    # Soft evaluation methods:
-        # Soft evaluation methods calculate the metrics 
-        # where we dont care with wich nucleotide one is paired.
-        # We only care if they are paired or not
-        # True: X has a pair. False: X doesnt have a pair.
-        # True positive: X is paired in both predicted sequence and ground truth...
-    
-    def soft_f1_score(self, pStructure):
-        # Calculates the soft F1 score 
-        TP, TN, FP, FN = op.get_TP_TN_FP_FN(pStructure, self.structure) 
-        f1_score = 2 * (((TP / (TP+FP)) * (TP / (TP + FN)))/((TP / (TP+FP)) + (TP / (TP + FN))))
-        return f1_score
-    
-    def soft_precision(self, pStructure):
-        # Calculates the soft Precision score 
-        TP, TN, FP, FN = op.get_TP_TN_FP_FN(pStructure, self.structure) 
-        precision = TP / (TP+FP)
-        return precision
-    
-    def soft_recall(self, pStructure):
-        # Calculates the soft recall score
-        TP, TN, FP, FN = op.get_TP_TN_FP_FN(pStructure, self.structure) 
-        recall = TP / (TP + FN)
-        return recall
+    ##########################################################
+    ##########################################################
 
-    def soft_MCC(self, pStructure):
-        # Measures the soft Matthews correlation coefficient.
-        TP, TN, FP, FN = op.get_TP_TN_FP_FN(pStructure, self.structure) 
-        MCC = ((TP*TN)-(FP*FN))/(np.sqrt((TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)))
-        return MCC 
-    
-    # Normal or "hard" evaluation methods:
-        # Normal evaluation methods calculate the metrics 
-        # where we do care with wich nucleotide one is paired.
+    # Evaluation methods:
 
-    def f1_score(self, pStructure):
+        # Binary valuation methods:
+            # Binary evaluation methods calculate the metrics 
+            # where we dont care with wich nucleotide one is paired.
+            # We only care if they are paired or not
+            # True: X has a pair. False: X doesnt have a pair.
+            # True positive: X is paired in both predicted sequence and ground truth...
+    
+        # Multiclassevaluation methods:
+            # Multiclass evaluation methods calculate the metrics 
+            # where we do care with wich nucleotide one is paired.
+
+    def fscore(self, pStructure, mode = "multiclass"):
         # Calculates the F1 score 
-        TP, TN, FP, FN = op.get_TP_TN_FP_FN(pStructure, self.structure) 
-        f1_score = 2 * (((TP / (TP+FP)) * (TP / (TP + FN)))/((TP / (TP+FP)) + (TP / (TP + FN))))
-        return f1_score
+        if mode == "binary":
+            y_pred, y_true = op.binary_list(self.structure, pStructure)
+            score = f1_score(y_true,y_pred)
+        else:
+            y_pred, y_true = op.multilabel_list(self.structure, pStructure, self.sequence)
+            score = recall_score(y_true,y_pred, average="micro")
+        return score
     
-    def precision(self, pStructure):
+    def precision(self, pStructure, mode = "multiclass"):
         # Calculates the Precision score 
-        TP, TN, FP, FN = op.get_TP_TN_FP_FN(pStructure, self.structure) 
-        precision = TP / (TP+FP)
-        return precision
+        if mode == "binary":
+            y_pred, y_true = op.binary_list(self.structure, pStructure)
+            score = precision_score(y_true,y_pred)
+        else:
+            y_pred, y_true = op.multilabel_list(self.structure, pStructure, self.sequence)
+            score = recall_score(y_true,y_pred, average="micro")
+        return score
     
-    def recall(self, pStructure):
+    def recall(self, pStructure, mode = "multiclass"):
         # Calculates the recall score
-        TP, TN, FP, FN = op.get_TP_TN_FP_FN(pStructure, self.structure) 
-        recall = TP / (TP + FN)
-        return recall
+        if mode == "binary":
+            y_pred, y_true = op.binary_list(self.structure, pStructure)
+            score = recall_score(y_true,y_pred)
+        else:
+            y_pred, y_true = op.multilabel_list(self.structure, pStructure, self.sequence)
+            score = recall_score(y_true,y_pred, average="micro")
+        return score
 
-    def MCC(self, pStructure):
-        # Measures the Matthews correlation coefficient.
-        TP, TN, FP, FN = op.get_TP_TN_FP_FN(pStructure, self.structure) 
-        MCC = ((TP*TN)-(FP*FN))/(np.sqrt((TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)))
-        return MCC 
+    def accuracy(self, pStructure, mode = "multiclass"):
+        # Calculates the recall score
+        if mode == "binary":
+            y_pred, y_true = op.binary_list(self.structure, pStructure)
+        else:
+            y_pred, y_true = op.multilabel_list(self.structure, pStructure, self.sequence)
+
+        score = accuracy_score(y_true,y_pred)
+        return score
+    
+    def cnf_matrix(self, pStructure, mode = "multiclass"):
+        # Calculates de confusion matrix
+        if mode == "binary":
+            y_pred, y_true = op.binary_list(self.structure, pStructure)
+        else:
+            y_pred, y_true = op.multilabel_list(self.structure, pStructure, self.sequence)
+
+        mtrix = confusion_matrix(y_true,y_pred)
+        
+        return mtrix
+
+##########################################################
+##########################################################
+
+# Debug method
+    
+    def evaluate(self, pStructure):
+        print("Name: ", self.name)
+        print("Sequence lenght: ", len(self.sequence))
+        print(" ")
+
+        print("Sequence: ", self.sequence)
+        cont = 0
+        for let in self.sequence:
+            print(cont,let, " ", end="")
+            cont +=1
+            
+        print(" ")
+        print(" ")
+
+        print("Truth:")
+        aux_list = self.structure["base_pair"].tolist()
+        cont = 0
+        for let in aux_list:
+            print(cont,let, " ", end="")
+            cont +=1
+
+        print(" ")
+        print(" ")
+
+        print("Predicted structure: ")
+        cont = 0
+        for let in pStructure:
+            print(cont,let[1], " ", end="")
+            cont +=1
+
+        print(" ")
+        print(" ")
+
+        print("Results: Binary.")
+        print("Accuracy: ",     self.accuracy(pStructure, mode="binary"))
+        print("Precision: ",    self.precision(pStructure, mode="binary"))
+        print("Recall: ",       self.recall(pStructure, mode="binary"))
+        print("F1 score: ",     self.fscore(pStructure, mode="binary"))
+        print("Confusion matrix:")
+        print(self.cnf_matrix(pStructure, mode="binary"))
+
+        print(" ")
+        print(" ")
+
+        print("Results: Multiclass.")
+        print("Accuracy: ",     self.accuracy(pStructure))
+        print("Precision: ",    self.precision(pStructure))
+        print("Recall: ",       self.recall(pStructure))
+        print("F1 score: ",     self.fscore(pStructure))
+        print("Confusion matrix:")
+        print(self.cnf_matrix(pStructure))
+
+        print(" ")
+        print(" ")

@@ -124,7 +124,7 @@ class Rna:
         print("Predicted structure: ")
         cont = 0
         for let in pStructure:
-            print(cont,let[1], " ", end="")
+            print(cont,let, " ", end="")
             cont +=1
 
         print(" ")

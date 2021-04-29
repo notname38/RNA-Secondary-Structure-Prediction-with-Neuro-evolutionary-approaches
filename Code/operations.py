@@ -3,12 +3,11 @@ import numpy as np
 def format_result(pair_list, nElements):
     # TODO:
     # take a good look at this method. Might find a better way.
-    result_list = np.zeros((nElements,2), dtype=np.int32)
-    for n in range(nElements):
-        result_list[n][0] = n
+    result_list = np.zeros(nElements, dtype=np.int32)
+
     for pair in pair_list:
-        result_list[pair[0]] = [pair[0], pair[1]] 
-        result_list[pair[1]] = [pair[1], pair[0]]
+        result_list[pair[0]] = pair[1] + 1
+        result_list[pair[1]] = pair[0] + 1
     return list(result_list) 
 
 
@@ -38,7 +37,7 @@ def binary_list(structure_1, structure_2):
     y_true = []
 
     for i in range(nElements):
-        aux = structure_2[i][1]
+        aux = structure_2[i]
         aux_2 = true_pairs[i]
         x = 1
         y = 1
@@ -100,21 +99,22 @@ def multilabel_list(structure_1, structure_2, seq):
     y_true = []
 
     for i in range(nElements):
-        aux = structure_2[i][1]
+
+        aux = structure_2[i]
         aux_2 = true_pairs[i]
         if aux == 0:
             x = 0
         else:
-            x = encode(seq[aux])
+            x = encode(seq[aux - 1])
         y_pred.append(x)
 
         if aux_2 == 0:
             y = 0
         else:
-            y = encode(seq[aux_2])
+            y = encode(seq[aux_2 - 1])
 
         y_true.append(y)
-        
+
     return list(y_pred), list(y_true)
 
 ##########################################################################

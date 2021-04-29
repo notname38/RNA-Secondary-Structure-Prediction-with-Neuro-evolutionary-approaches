@@ -17,7 +17,7 @@ class RNAFold(algorithm):
         for pair in structure:
             pair_list.append([pair.ij[0][0],pair.ij[0][1]])
         pair_list = op.format_result(pair_list, len(seq))
-        
+
         return list(pair_list)
 
 

@@ -29,7 +29,6 @@ for elem in database:
         pseq = testelem.sequence
         predicted = rnaFold.calculate_structure(pseq)
         testelem.evaluate(predicted)
-        
 
 
 

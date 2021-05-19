@@ -18,7 +18,7 @@ def format_result(pair_list, nElements):
     # Structure_1 is a pandas dataset.
     # Structure_2 is a list of pairs.
 
-    # We have five options:
+    # We have 2 options:
         # Not paired.
         # Paired.
 
@@ -120,6 +120,17 @@ def multilabel_list(structure_1, structure_2, seq):
 ##########################################################################
 ##########################################################################
 
+def exact_matches(structure_1, structure_2):
+    nElements = len(structure_1)
+    matches = []
+
+    for i in range(nElements):
+        if structure_1[i] == structure_2[i]:
+            matches.append(1)
+        else:
+            matches.append(0)
+    
+    return list(matches)
 
 
 

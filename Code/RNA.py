@@ -103,34 +103,34 @@ class Rna:
         print(" ")
 
         print("Sequence: ", self.sequence)
-        cont = 0
-        for let in self.sequence:
-            print(cont,let, " ", end="")
-            cont +=1
+        # cont = 0
+        # for let in self.sequence:
+        #     print(cont,let, " ", end="")
+        #     cont +=1
             
+        # print(" ")
+        # print(" ")
+
+        # print("Truth:")
+        # aux_list = self.structure["base_pair"].tolist()
+        # cont = 0
+        # for let in aux_list:
+        #     print(cont,let, " ", end="")
+        #     cont +=1
+
+        # print(" ")
+        # print(" ")
+
+        # print("Predicted structure: ")
+        # cont = 0
+        # for let in pStructure:
+        #     print(cont,let, " ", end="")
+        #     cont +=1
+
         print(" ")
         print(" ")
 
-        print("Truth:")
-        aux_list = self.structure["base_pair"].tolist()
-        cont = 0
-        for let in aux_list:
-            print(cont,let, " ", end="")
-            cont +=1
-
-        print(" ")
-        print(" ")
-
-        print("Predicted structure: ")
-        cont = 0
-        for let in pStructure:
-            print(cont,let, " ", end="")
-            cont +=1
-
-        print(" ")
-        print(" ")
-
-        print("Results: Binary.")
+        print("Results: Binary. (Paired or not paired)")
         print("Accuracy: ",     self.accuracy(pStructure, mode="binary"))
         print("Precision: ",    self.precision(pStructure, mode="binary"))
         print("Recall: ",       self.recall(pStructure, mode="binary"))
@@ -141,13 +141,21 @@ class Rna:
         print(" ")
         print(" ")
 
-        print("Results: Multiclass.")
+        print("Results: Multiclass. (Paired with same element)")
         print("Accuracy: ",     self.accuracy(pStructure))
         print("Precision: ",    self.precision(pStructure))
         print("Recall: ",       self.recall(pStructure))
         print("F1 score: ",     self.fscore(pStructure))
         print("Confusion matrix:")
         print(self.cnf_matrix(pStructure))
+
+        print(" ")
+        print(" ")
+        
+        print("Exact matches (paired with the same index, thus with same element):")
+        matches = op.exact_matches(self.structure["base_pair"].tolist(), pStructure)
+        print(matches.count(1), " out of ", len(self.sequence))
+        print("Exact match rate ",(matches.count(1)*100)/len(self.sequence),"%" )
 
         print(" ")
         print(" ")

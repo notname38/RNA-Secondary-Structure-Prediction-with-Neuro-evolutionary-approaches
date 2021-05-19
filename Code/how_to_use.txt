@@ -1,0 +1,24 @@
+To be able to run the code, follow the next steps:
+
+> Have pandas, numpy, sklearn and mathplotlib installed.
+
+
+> To install and test e2efold:
+	
+	1. Go to Deep_nets/e2efold andexecute the following: (Heavy, be sure to have space)
+
+		Conda env create -f environment.yml # Only needed to do once per machine
+
+	2. 	source activate rna_ss  # Activate to run in the enviroment the code
+
+	3.  pip install -e . # Only needed to do once per machine
+
+	3. back in the code folder, execute python3 main.py (the test sequences can be changed to other sequences in Databases/archiveII))
+
+	4. An example of the output can be seen in output.txt
+
+
+
+> If seqfold wants to be tested, please install the following: 
+
+https://pypi.org/project/seqfold/

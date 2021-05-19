@@ -2,6 +2,14 @@ import os
 import pandas as pd
 from RNA import Rna
 
+def load_dataframe(file):
+    dataframe = pd.read_table(file, sep="\t", header = None, index_col=0, skiprows=1)
+    dataframe.rename(columns={1: "base", 4: "base_pair"}, inplace = True)
+    dataframe.drop([2,3,5], axis = 1, inplace = True)
+    dataframe = dataframe.iloc[0:]
+    return dataframe
+
+
 
 # Loads all the sequences into the dataset from a folder with .seq and .ct files.
 def load_sequences(folder):
@@ -21,14 +29,26 @@ def load_sequences(folder):
 
         if filename.endswith(".ct"):
             file = folder + "/" + filename
-            dataframe = pd.read_table(file, sep="\t", header = None, index_col=0, skiprows=1)
-            dataframe.rename(columns={1: "base", 4: "base_pair"}, inplace = True)
-            dataframe.drop([2,3,5], axis = 1, inplace = True)
-            dataframe = dataframe.iloc[0:]
-
+            dataframe = load_dataframe(file)
             sequence_list[pos-1].update_structure(dataframe)
 
     return list(sequence_list)
+
+
+# Usefull for models that save results as CT tables.
+# Creates predicted RNA objects
+def load_ct_only(folder):
+    aux_list = []
+    for filename in sorted(os.listdir(folder), reverse=True):
+        file = folder + "/" + filename
+        dataframe = load_dataframe(file)
+        element = Rna(filename[:-3], "prediction", 0)
+        element.update_structure(dataframe)
+        aux_list.append(element)
+
+    return list(aux_list)
+
+
 
 
 

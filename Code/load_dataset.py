@@ -23,7 +23,7 @@ def load_sequences(folder):
             seqname = lines[1].split()[0]
             #if seqname == "lcaligenes-sp--1":
             #    print(filename)
-            seq = lines[2][:-2]
+            seq = lines[2][:-2].upper()
             sequence_list.append(Rna(seqname, seq, 0))
             pos = pos + 1
 

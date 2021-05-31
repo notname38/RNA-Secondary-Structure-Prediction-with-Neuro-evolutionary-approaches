@@ -159,3 +159,18 @@ class Rna:
 
         print(" ")
         print(" ")
+
+    def comp_evaluate(self, pStructure):
+        bin_acc = self.accuracy(pStructure, mode="binary")
+        bin_recall = self.recall(pStructure)
+        bin_f = self.fscore(pStructure, mode="binary")
+        bin_prec = self.precision(pStructure, mode="binary")
+
+        ex_acc = self.accuracy(pStructure)
+        ex_recall = self.recall(pStructure)
+        ex_f = self.fscore(pStructure)
+        ex_prec = self.precision(pStructure)
+        matches = op.exact_matches(self.structure["base_pair"].tolist(), pStructure)
+        ex_amm = ((matches.count(1)*100)/len(self.sequence))
+
+        return bin_acc, bin_recall, bin_f, bin_prec, ex_acc, ex_recall, ex_f, ex_prec, ex_amm

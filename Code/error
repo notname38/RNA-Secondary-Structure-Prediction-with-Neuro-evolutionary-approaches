@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "E2E_stat_test.py", line 33, in <module>
+    e2e.pretrainE2E(path+"/Code", path+"/Code/saved_results", test_list)
+  File "/home/notname/Repositories/RNA-Secondary-Structure-Prediction-with-Neuro-evolutionary-approaches/Code/pretrained_E2E.py", line 131, in pretrainE2E
+    save_file(path_to_save, names[i]+'.ct', ct_list[i])
+IndexError: list index out of range

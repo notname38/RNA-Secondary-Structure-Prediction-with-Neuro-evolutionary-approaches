@@ -3,7 +3,9 @@ To better understand the data formats in here, go to:
 https://rna.urmc.rochester.edu/Text/File_Formats.html
 https://software.broadinstitute.org/software/igv/RNAsecStructure
 
-
+These archives have been eliminated due to not having the corresponding Cts:
+grp1_a.I1.e.C.sorokiniana.C1.SSU.323.seq
+grp1_a.I1.e.C.luteoviridis.B.C1.SSU.1052.seq
 
 The following archives give problems due to poor or incorrect label separation, thus they have been removed (both seq and ct).
 

@@ -1,0 +1,103 @@
+Loading e2e model...
+Name:  rtemia-sp--1
+Sequence lenght:  121
+ 
+Sequence:  GACCAACGGCCAUACCACGUUGAAAGUACCCAGUCUCGUCAGAUCCUGGAAGUCACACAACGUCGGGCCCGGUCAGUACUUGGAUGGGUGACCGCCUGGGAACACCGGGUGCUGUUGGCAU
+ 
+ 
+Results: Binary. (Paired or not paired)
+Accuracy:  0.9338842975206612
+Precision:  0.9696969696969697
+Recall:  0.9142857142857143
+F1 score:  0.9411764705882354
+Confusion matrix:
+[[49  2]
+ [ 6 64]]
+ 
+ 
+Results: Multiclass. (Paired with same element)
+Accuracy:  0.9338842975206612
+Precision:  0.9338842975206612
+Recall:  0.9338842975206612
+F1 score:  0.9338842975206612
+Confusion matrix:
+[[49  1  1  0  0]
+ [ 2 22  0  0  0]
+ [ 2  0 25  0  0]
+ [ 1  0  0  7  0]
+ [ 1  0  0  0 10]]
+ 
+ 
+Exact matches (paired with the same index, thus with same element):
+111  out of  121
+Exact match rate  91.73553719008264 %
+ 
+ 
+Name:  lcaligenes-sp--1
+Sequence lenght:  118
+ 
+Sequence:  UUAGCCUGACGACCAUAGCAAGGUGGUACCACUCCUUCCCAUCCCGAACAGGACAGUGAAACGCCUUUGCGCCGAUGAUAGUGGACGGACGUCUGUGAAAGUAGGUCAUCGUCAGGCU
+ 
+ 
+Results: Binary. (Paired or not paired)
+Accuracy:  0.864406779661017
+Precision:  1.0
+Recall:  0.7647058823529411
+F1 score:  0.8666666666666666
+Confusion matrix:
+[[50  0]
+ [16 52]]
+ 
+ 
+Results: Multiclass. (Paired with same element)
+Accuracy:  0.864406779661017
+Precision:  0.864406779661017
+Recall:  0.864406779661017
+F1 score:  0.864406779661017
+Confusion matrix:
+[[50  0  0  0  0]
+ [ 4 14  0  0  0]
+ [ 5  0 18  0  0]
+ [ 3  0  0  8  0]
+ [ 4  0  0  0 12]]
+ 
+ 
+Exact matches (paired with the same index, thus with same element):
+100  out of  118
+Exact match rate  84.7457627118644 %
+ 
+ 
+Name:  A_Anab-vari-_CP000117_1-390
+Sequence lenght:  390
+ 
+Sequence:  GGGUCCGUAACGGUUUCGACAGGUUGGCGAACGCUACUCUGUGAUUCAGGUCGAGAGUGAGUCUCCUCUCGCAAAUCAAGGCUCAAAACAAAAGUAAAUGCGAAUAACAUCGUAAAAUUUGCUCGUAAGGACGCUCUAGUAGCUGCCUAAUUAGCCUCUUACAGGUUCGAGCGUCUUCGGUUUGACUCCGUUAAGGACUGAAGACCAACCCCCAACGGAUGCUCUAGCAAGUGUUCUCUGGUUGGCUUGCUAGCUAAGAUUUAAUCAGAGCAUCCUACGUUCGGGAUAAUGAACGAUUCCCGCCUUGAGGGUCAGAAAGGCUAAACCUGUGAAUGAGCGGGGGGUCAAUACCCAAUUUGGACAGCAGUUCGACUCUGCUCGGAUCCACUA
+ 
+ 
+Results: Binary. (Paired or not paired)
+Accuracy:  0.5641025641025641
+Precision:  0.8023255813953488
+Recall:  0.3108108108108108
+F1 score:  0.44805194805194803
+Confusion matrix:
+[[151  17]
+ [153  69]]
+ 
+ 
+Results: Multiclass. (Paired with same element)
+Accuracy:  0.5512820512820513
+Precision:  0.5512820512820513
+Recall:  0.5512820512820513
+F1 score:  0.5512820512820513
+Confusion matrix:
+[[151   7   7   0   3]
+ [ 32  18   0   0   3]
+ [ 45   0  24   0   0]
+ [ 30   0   0  12   0]
+ [ 46   2   0   0  10]]
+ 
+ 
+Exact matches (paired with the same index, thus with same element):
+183  out of  390
+Exact match rate  46.92307692307692 %
+ 
+ 

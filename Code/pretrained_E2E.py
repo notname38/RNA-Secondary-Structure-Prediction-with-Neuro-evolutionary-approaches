@@ -10,10 +10,18 @@ from Deep_nets.e2efold.e2efold.common.utils import *
 from Deep_nets.e2efold.e2efold.common.config import process_config
 from Deep_nets.e2efold.e2efold.evaluation import all_test_only_e2e
 
+    # for saving the results
+
+def save_file(folder, file, ct_contact):
+    file_path = os.path.join(folder, file)
+    first_line = str(len(ct_contact)) + '\t' + file + '\n'
+    content = ct_contact.to_csv(header=None, index=None, sep='\t')
+    with open(file_path, 'w') as f:
+        f.write(first_line+content)
 
 def pretrainE2E(path,path_to_save,data):
     d = 10
-    BATCH_SIZE = 8
+    BATCH_SIZE = 1
     OUT_STEP = 100
     LOAD_MODEL = True
     pp_steps = 20
@@ -28,6 +36,9 @@ def pretrainE2E(path,path_to_save,data):
     evaluate_epi = 1
     step_gamma = 1
     k = 1
+    error_num = 0
+    # elements_to_save = []
+    aux_cont = -1
 
     # if gpu is to be used
     device = torch.device("cpu")
@@ -73,7 +84,7 @@ def pretrainE2E(path,path_to_save,data):
     sequences = list()
     names = list()
     for elem in data:
-        if len(elem.sequence) <= 600:
+        if len(elem.sequence) < seq_len:
             sequences.append(elem.sequence)
             names.append(elem.name)
 
@@ -85,11 +96,25 @@ def pretrainE2E(path,path_to_save,data):
         math.ceil(len(sequences)/BATCH_SIZE))
 
     ct_list = list()
-
     for seqs in seq_batch:
-        seq_embeddings =  list(map(seq_encoding, seqs))
-        seq_embeddings = list(map(lambda x: padding(x, seq_len), 
-            seq_embeddings))
+        aux_cont = aux_cont + 1
+        print("(",aux_cont,"/",len(names),") E2E Evaluations. Sequence: ", names[aux_cont])
+        try:
+            seq_embeddings =  list(map(seq_encoding, seqs))
+            seq_embeddings = list(map(lambda x: padding(x, seq_len), seq_embeddings))
+        except KeyError:
+            error_num = error_num + 1
+            print("               ")
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print("Error number: ", error_num)
+            print("Error info : Key error in seq_batch maping")
+            print("Seqs: ", seqs)
+            print("out of: ", aux_cont)
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print("               ")
+            continue
+        
+        # elements_to_save.append(aux_cont)
         seq_embeddings = np.array(seq_embeddings)
         seq_lens = torch.Tensor(np.array(list(map(len, seqs)))).int()
         seq_embedding_batch = torch.Tensor(seq_embeddings).float().to(device)
@@ -109,15 +134,8 @@ def pretrainE2E(path,path_to_save,data):
                 seq_embeddings[i], seq_lens.numpy()[i])
             ct_list.append(ct_tmp)
 
-    # for saving the results
-
-    def save_file(folder, file, ct_contact):
-            file_path = os.path.join(folder, file)
-            first_line = str(len(ct_contact)) + '\t' + file + '\n'
-            content = ct_contact.to_csv(header=None, index=None, sep='\t')
-            with open(file_path, 'w') as f:
-                f.write(first_line+content)
-
-
     for i in range(len(names)):
         save_file(path_to_save, names[i]+'.ct', ct_list[i])
+
+#    for i in range(len(ct_list)):
+#        save_file(path_to_save, names[elements_to_save[i]]+'.ct', ct_list[i])

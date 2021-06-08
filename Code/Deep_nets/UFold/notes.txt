@@ -1,0 +1,3 @@
+Custom model 1:
+	- Trained on http://bprna.cgrb.oregonstate.edu/download.php ct files (I transformed it into bpseq)
+	- 60, 40 percent train/test
